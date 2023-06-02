@@ -19,10 +19,14 @@ func main() {
 
 	// Create application with options
 	err := wails.Run(&options.App{
-		Title:  "twimg",
-		Width:  600,
-		Height: 800,
-		DisableResize: true,
+		Title:         "twimg",
+		Width:         420,
+		Height:        740,
+		MinWidth:      420,
+		MinHeight:     700,
+		MaxWidth:      600,
+		MaxHeight:     800,
+		OnBeforeClose: app.BeforeClose,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},

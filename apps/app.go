@@ -5,6 +5,8 @@ import (
 	"fmt"
 
 	"twimgw/core"
+
+	"github.com/wailsapp/wails/v2/pkg/runtime"
 )
 
 // App struct
@@ -21,6 +23,19 @@ func NewApp() *App {
 // so we can call the runtime methods
 func (a *App) Startup(ctx context.Context) {
 	a.ctx = ctx
+}
+
+func (b *App) BeforeClose(ctx context.Context) (prevent bool) {
+	dialog, err := runtime.MessageDialog(ctx, runtime.MessageDialogOptions{
+		Type:    runtime.QuestionDialog,
+		Title:   "Quit?",
+		Message: "Are you sure you want to quit?",
+	})
+
+	if err != nil {
+		return false
+	}
+	return dialog != "Yes"
 }
 
 func (a *App) TwitterCore(tweetData *core.TwitterDownload) map[string]any {
