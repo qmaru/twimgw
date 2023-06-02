@@ -26,11 +26,11 @@ func main() {
 		MinHeight:     700,
 		MaxWidth:      600,
 		MaxHeight:     800,
+		OnStartup: app.Startup,
 		OnBeforeClose: app.BeforeClose,
 		AssetServer: &assetserver.Options{
 			Assets: assets,
 		},
-		OnStartup: app.Startup,
 		Bind: []interface{}{
 			app,
 		},

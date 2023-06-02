@@ -2,7 +2,6 @@ package apps
 
 import (
 	"context"
-	"fmt"
 
 	"twimgw/core"
 
@@ -30,12 +29,17 @@ func (b *App) BeforeClose(ctx context.Context) (prevent bool) {
 		Type:    runtime.QuestionDialog,
 		Title:   "Quit?",
 		Message: "Are you sure you want to quit?",
+		Buttons: []string{"ok", "cancel"},
 	})
 
 	if err != nil {
 		return false
 	}
-	return dialog != "Yes"
+
+	if dialog == "ok" {
+		return false
+	}
+	return true
 }
 
 func (a *App) TwitterCore(tweetData *core.TwitterDownload) map[string]any {
@@ -44,7 +48,6 @@ func (a *App) TwitterCore(tweetData *core.TwitterDownload) map[string]any {
 		return JsonData(0, "collect error: "+err.Error(), []any{})
 	}
 
-	fmt.Println(mediaCounts, mediaCounts < 0)
 	if mediaCounts == 0 {
 		return JsonData(0, "media not found", []any{})
 	}
